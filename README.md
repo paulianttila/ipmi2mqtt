@@ -1,4 +1,4 @@
-# ipmmi2mqtt
+# ipmi2mqtt
 
 Simple IPMI client to monitor server and forward values to MQTT broker.
 
