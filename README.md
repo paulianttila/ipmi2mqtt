@@ -2,6 +2,12 @@
 
 Simple IPMI client to monitor server and forward values to MQTT broker.
 
+MQTT explorer screenshot:
+
+![plot](./pics/mqtt.png)
+
+Available IPMI variables can vary per server.
+
 ## Environament variables
 
 See commonn environment variables from [MQTT-Framework](https://github.com/paulianttila/MQTT-Framework).
