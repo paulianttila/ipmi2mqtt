@@ -70,28 +70,30 @@ class MyApp:
             self.valueCache.clear()
 
         retval, result = self.get_ipmi_values()
-        if retval == 0:
-            self.succesfull_fecth_metric.inc()
-            vals = self.parse_ipmi_values(
-                csv.DictReader(result.splitlines(), delimiter=",")
-            )
-            for name, value in vals.items():
-                self.publish_value(name, value)
-
-            self.publish_value_to_mqtt_topic(
-                "lastUpdateTime",
-                str(datetime.now().replace(microsecond=0).isoformat()),
-                True,
-            )
-        else:
+        if retval:
             self.fecth_errors_metric.inc()
+            return
 
-    def get_ipmi_values(self):
+        self.succesfull_fecth_metric.inc()
+        vals = self.parse_ipmi_values(
+            csv.DictReader(result.splitlines(), delimiter=",")
+        )
+        for name, value in vals.items():
+            self.publish_value(name, value)
+
+        self.publish_value_to_mqtt_topic(
+            "lastUpdateTime",
+            str(datetime.now().replace(microsecond=0).isoformat()),
+            True,
+        )
+
+    def get_ipmi_values(self) -> tuple[int, str]:
         start = time.time()
         retval, result = self.execute_command(
             [
                 "ipmi-sensors",
                 "--comma-separated-output",
+                "--ignore-not-available-sensors",
                 "--hostname=" + self.config["IPMI_HOST"],
                 "--username=" + self.config["IPMI_USER"],
                 "--password=" + self.config["IPMI_PASS"],
@@ -107,7 +109,7 @@ class MyApp:
         )
         return retval, result
 
-    def execute_command(self, cmd, timeout=5, cwd=None):
+    def execute_command(self, cmd, timeout=5, cwd=None) -> tuple[int, str]:
         r = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd
         )
@@ -116,28 +118,25 @@ class MyApp:
     def is_not_blank(self, str):
         return bool(str and str.strip())
 
-    def parse_ipmi_values(self, reader):
-        dict = {}
+    def parse_ipmi_values(self, reader) -> dict:
+        vals = {}
         for row in reader:
             name = row["Name"].replace(" ", "_")
             value = row["Reading"].replace(" ", "_")
             if self.is_not_blank(name) and self.is_not_blank(value) and value != "N/A":
-                dict[name] = value
-        return dict
+                vals[name] = value
+        return vals
 
-    def publish_value(self, key, value):
+    def publish_value(self, key, value) -> None:
         previousvalue = self.valueCache.get(key)
         publish = False
         if previousvalue is None:
             self.logger.debug("%s: no cache value available", key)
             publish = True
+        elif value == previousvalue:
+            self.logger.debug("%s = %s : skip update because of same value", key, value)
         else:
-            if value == previousvalue:
-                self.logger.debug(
-                    "%s = %s : skip update because of same value", key, value
-                )
-            else:
-                publish = True
+            publish = True
 
         if publish:
             self.logger.info("%s = %s", key, value)
