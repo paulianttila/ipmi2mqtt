@@ -145,4 +145,4 @@ class MyApp:
 
 
 if __name__ == "__main__":
-    Framework().start(MyApp(), MyConfig(), blocked=True)
+    Framework().run(MyApp(), MyConfig())
