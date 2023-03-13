@@ -109,13 +109,15 @@ class MyApp:
         )
         return retval, result
 
-    def execute_command(self, cmd, timeout=5, cwd=None) -> tuple[int, str]:
+    def execute_command(
+        self, cmd: str, timeout: float = 5, cwd: str = None
+    ) -> tuple[int, str]:
         r = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd
         )
         return (r.returncode, r.stdout)
 
-    def is_not_blank(self, str):
+    def is_not_blank(self, str) -> bool:
         return bool(str and str.strip())
 
     def parse_ipmi_values(self, reader) -> dict:
@@ -127,7 +129,7 @@ class MyApp:
                 vals[name] = value
         return vals
 
-    def publish_value(self, key, value) -> None:
+    def publish_value(self, key: str, value: str) -> None:
         previousvalue = self.valueCache.get(key)
         publish = False
         if previousvalue is None:
