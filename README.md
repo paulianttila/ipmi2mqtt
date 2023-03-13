@@ -8,6 +8,9 @@ MQTT explorer screenshot:
 
 Available IPMI variables can vary per server.
 
+App supports only one IPMI server at the time.
+Run multiple docker container instances if information need to be fetched from multiple IPMI servers.
+
 ## Environament variables
 
 See commonn environment variables from [MQTT-Framework](https://github.com/paulianttila/MQTT-Framework).
