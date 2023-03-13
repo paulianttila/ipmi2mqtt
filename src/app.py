@@ -43,15 +43,12 @@ class MyApp:
             "fecth_errors", "", registry=self.metrics_registry
         )
 
-        self.exit = False
         self.valueCache = Cache(maxsize=256, ttl=self.config["CACHE_TIME"])
 
     def get_version(self) -> str:
         return "2.0.0"
 
     def stop(self) -> None:
-        self.logger.debug("Stopping...")
-        self.exit = True
         self.logger.debug("Exit")
 
     def subscribe_to_mqtt_topics(self) -> None:
