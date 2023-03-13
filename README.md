@@ -13,7 +13,7 @@ Run multiple docker container instances if information need to be fetched from m
 
 ## Environament variables
 
-See commonn environment variables from [MQTT-Framework](https://github.com/paulianttila/MQTT-Framework).
+See common environment variables from [MQTT-Framework](https://github.com/paulianttila/MQTT-Framework).
 
 | **Variable**               | **Default** | **Descrition**                                                                                                |
 |----------------------------|-------------|---------------------------------------------------------------------------------------------------------------|
