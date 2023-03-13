@@ -65,7 +65,7 @@ class MyApp:
 
     # Do work
     def do_update(self, trigger_source: TriggerSource) -> None:
-        self.logger.debug("update called, trigger_source=%s", trigger_source)
+        self.logger.debug(f"Update called, trigger_source={trigger_source}")
         if trigger_source == trigger_source.MANUAL:
             self.valueCache.clear()
 
@@ -131,10 +131,10 @@ class MyApp:
         previousvalue = self.valueCache.get(key)
         publish = False
         if previousvalue is None:
-            self.logger.debug("%s: no cache value available", key)
+            self.logger.debug(f"{key}: no cache value available")
             publish = True
         elif value == previousvalue:
-            self.logger.debug("%s = %s : skip update because of same value", key, value)
+            self.logger.debug(f"{key} = {value} : skip update because of same value")
         else:
             publish = True
 
