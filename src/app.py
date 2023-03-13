@@ -47,7 +47,7 @@ class MyApp:
         self.valueCache = Cache(maxsize=256, ttl=self.config["CACHE_TIME"])
 
     def get_version(self) -> str:
-        return "1.0.0"
+        return "2.0.0"
 
     def stop(self) -> None:
         self.logger.debug("Stopping...")
