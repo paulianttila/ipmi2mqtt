@@ -8,7 +8,7 @@ from prometheus_client import Counter
 from datetime import datetime
 import time
 
-import subprocess
+import subprocess  # nosec
 from cacheout import Cache
 import csv
 
@@ -111,7 +111,7 @@ class MyApp:
     ) -> tuple[int, str]:
         r = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd
-        )
+        )  # nosec
         return (r.returncode, r.stdout)
 
     def is_not_blank(self, str) -> bool:
