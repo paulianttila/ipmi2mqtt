@@ -34,8 +34,6 @@ services:
     container_name: ipmi2mqtt
     image: paulianttila/ipmi2mqtt:2.0.0
     restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
     environment:
       - CFG_LOG_LEVEL=DEBUG
       - CFG_MQTT_BROKER_URL=127.0.0.1
