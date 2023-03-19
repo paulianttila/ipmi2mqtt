@@ -21,7 +21,7 @@ See common environment variables from [MQTT-Framework](https://github.com/paulia
 | IPMI_HOST                  | 127.0.0.1   | IPMI server to connect.                                                                                       |
 | IPMI_USER                  | None        | Username for IPMI server.                                                                                     |
 | IPMI_PASS                  | None        | Password for IPMI server.                                                                                     |
-| TIMEOUT                    | 5           | Timeout to IPMI server connection.                                                                            |
+| TIMEOUT                    | 30          | Timeout to IPMI server connection.                                                                            |
 | CACHE_TIME                 | 300         | Cache time in seconds for IPMI values. During cache time, values are only updeted to MQTT if value changed.   |
 
 ## Example docker-compose.yaml

@@ -25,7 +25,7 @@ class MyConfig(Config):
     IPMI_USER = None
     IPMI_PASS = None
     CACHE_TIME = 300
-    TIMEOUT = 5
+    TIMEOUT = 30
 
 
 class MyApp:
@@ -66,9 +66,18 @@ class MyApp:
         if trigger_source == trigger_source.MANUAL:
             self.valueCache.clear()
 
-        retval, result = self.get_ipmi_values()
-        if retval:
+        try:
+            retval, result = self.get_ipmi_values()
+            if retval:
+                self.fecth_errors_metric.inc()
+                return
+        except subprocess.TimeoutExpired:
             self.fecth_errors_metric.inc()
+            self.logger.error("Timeout occured during IPMI command")
+            return
+        except Exception as e:
+            self.fecth_errors_metric.inc()
+            self.logger.error(f"Error occured: {e}")
             return
 
         self.succesfull_fecth_metric.inc()
@@ -107,7 +116,7 @@ class MyApp:
         return retval, result
 
     def execute_command(
-        self, cmd: str, timeout: float = 5, cwd: str = None
+        self, cmd: str, timeout: float = 60, cwd: str = None
     ) -> tuple[int, str]:
         r = subprocess.run(
             cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd
