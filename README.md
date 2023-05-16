@@ -18,11 +18,11 @@ See common environment variables from [MQTT-Framework](https://github.com/paulia
 | **Variable**               | **Default** | **Descrition**                                                                                                |
 |----------------------------|-------------|---------------------------------------------------------------------------------------------------------------|
 | CFG_APP_NAME               | ipmi2mqtt   | Name of the app.                                                                                              |
-| IPMI_HOST                  | 127.0.0.1   | IPMI server to connect.                                                                                       |
-| IPMI_USER                  | None        | Username for IPMI server.                                                                                     |
-| IPMI_PASS                  | None        | Password for IPMI server.                                                                                     |
-| TIMEOUT                    | 30          | Timeout to IPMI server connection.                                                                            |
-| CACHE_TIME                 | 300         | Cache time in seconds for IPMI values. During cache time, values are only updeted to MQTT if value changed.   |
+| CFG_IPMI_HOST              | 127.0.0.1   | IPMI server to connect.                                                                                       |
+| CFG_IPMI_USER              | None        | Username for IPMI server.                                                                                     |
+| CFG_IPMI_PASS              | None        | Password for IPMI server.                                                                                     |
+| CFG_TIMEOUT                | 30          | Timeout to IPMI server connection.                                                                            |
+| CFG_CACHE_TIME             | 300         | Cache time in seconds for IPMI values. During cache time, values are only updeted to MQTT if value changed.   |
 
 ## Example docker-compose.yaml
 
